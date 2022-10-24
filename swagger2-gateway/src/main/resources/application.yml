@@ -1,0 +1,46 @@
+# 网关配置
+spring:
+  application:
+    name: swagger2-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: c188e15e-de56-45c6-9298-0760e2f88612
+    gateway:
+      locator:
+        enabled: true
+      routes:
+        - id: swagger2-auth
+          uri: lb://swagger2-auth
+          predicates:
+            - Path=/swagger2-auth/**
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1
+        - id: swagger2-user
+          uri: lb://swagger2-user
+          predicates:
+            - Path=/swagger2-user/**
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1
+        - id: swagger2-gateway
+          uri: lb://swagger2-gateway
+          predicates:
+            - Path=/swagger2-gateway/**
+          filters:
+            - StripPrefix=1
+        - id: other
+          uri: lb://swagger2-gateway
+          predicates:
+            - Path=/**
+          filters:
+            - OtherFilter
+
+  profiles:
+    active: pre
+server:
+  port: 9001
+
+

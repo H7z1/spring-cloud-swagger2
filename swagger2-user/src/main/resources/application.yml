@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: swagger2-user
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: c188e15e-de56-45c6-9298-0760e2f88612
+
+server:
+  port: 8081
